@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { getUrl } from "../lib/index";
 import { useRegisterUserMutation } from "../store/apiSlice";
-
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,22 +13,29 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    // setting in local storage for email varification
+    localStorage.setItem("email", email);
+
     const formData = new FormData();
 
     formData.append("file", file);
     formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
-    const response = await axios.post(
-      "http://localhost:3000/api/auth/register",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log("Response:", response.data);
+    try {
+      const response = await axios.post(
+        `${getUrl()}/api/auth/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -44,7 +51,7 @@ const Register = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-md p-2 bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
@@ -52,7 +59,7 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-md p-2 bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
@@ -60,7 +67,7 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-md p-2 bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
