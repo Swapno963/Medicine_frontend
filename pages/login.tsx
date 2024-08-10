@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLoginUserMutation } from "../redux/apiSlice";
-import { setCredentials } from "../redux/authSlice";
+import { useLoginUserMutation } from "../store/apiSlice";
+import { setCredentials } from "../store/authSlice";
 
 const Login = () => {
   const [username, setUsername] = useState("");

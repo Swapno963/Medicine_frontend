@@ -21,7 +21,7 @@ const axiosBaseQuery =
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com",
+    baseUrl: "http://localhost:3000/api",
   }),
   endpoints: (builder) => ({
     getUsers: builder.query<any, void>({
@@ -53,6 +53,7 @@ export const apiSlice = createApi({
         url: "/auth/login",
         method: "POST",
         body: credentials,
+        headers: { "Content-Type": "multipart/form-data" },
       }),
     }),
     registerUser: builder.mutation<any, any>({
