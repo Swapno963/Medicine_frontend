@@ -5,7 +5,21 @@ const axiosBaseQuery =
   ({ baseUrl }: { baseUrl: string }) =>
   async ({ url, method, data, params }: any) => {
     try {
-      const result = await axios({ url: baseUrl + url, method, data, params });
+      // Handle different content types
+      const headers: Record<string, string> = {};
+
+      // Set headers based on the content type
+      if (data instanceof FormData) {
+        headers["Content-Type"] = "multipart/form-data";
+      }
+
+      const result = await axios({
+        url: baseUrl + url,
+        method,
+        data,
+        params,
+        headers,
+      });
       return { data: result.data };
     } catch (axiosError) {
       let err = axiosError as any;
@@ -21,7 +35,7 @@ const axiosBaseQuery =
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api",
+    baseUrl: "http://localhost:8000/api",
   }),
   endpoints: (builder) => ({
     getUsers: builder.query<any, void>({
