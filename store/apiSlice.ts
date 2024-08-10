@@ -47,11 +47,28 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
     }),
+    // authientication
+    loginUser: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    registerUser: builder.mutation<any, any>({
+      query: (newUser) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: newUser,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetUsersQuery,
+  useLoginUserMutation,
+  useRegisterUserMutation,
   useAddUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
